@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 
 def pair_plot(file):
     # loading dataset using seaborn
-    df = pd.read_csv(file)
-    sns.pairplot(df, hue='Hogwarts House')
+    df = pd.read_csv(file).drop("Index", axis=1)
+    sns.pairplot(df, hue='Hogwarts House', diag_kind="hist")
     plt.show()
 
 

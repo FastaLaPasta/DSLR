@@ -14,15 +14,14 @@ def accurcy(y_pred, y_test):
     return np.sum(y_pred == y_test)/len(y_test)
 
 
-def preprocessing_data(X_train, X_test):
+def preprocessing_data(X_test):
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
+    X_test = scaler.fit_transform(X_test)
 
-    return X_train, X_test
+    return X_test
 
 
-def load_weights_from_csv(path='weights.csv'):
+def load_weights_from_csv(path):
     df = pd.read_csv(path)
     n_features = len(df.columns) - 1
     models = []
@@ -48,22 +47,18 @@ def main():
     n_iters = 5000
 
     try:
-        train_data = get_data(sys.argv[1])
-        test_data = get_data(sys.argv[2])
+        test_data = get_data(sys.argv[1])
     except Exception as e:
         print(e)
         return
 
-    X = train_data.drop(['Hogwarts House', 'Index'], axis=1).select_dtypes(include=[int, float]).fillna(0).values
-    X_test = test_data.drop(['Hogwarts House', 'Index'], axis=1).select_dtypes(include=[int, float]).fillna(0).values
+    X_test = test_data.drop(['Hogwarts House', 'Index'], axis=1).select_dtypes(
+        include=[int, float]).fillna(0).values
 
-    # le = LabelEncoder()
-    # y_test = le.fit_transform(test_data['Hogwarts House'].values)
-
-    X_train, X_test = preprocessing_data(X, X_test)
+    X_test = preprocessing_data(X_test)
 
     clf = LogisticRegression(lr, n_iters)
-    clf.models = load_weights_from_csv('weights.csv')
+    clf.models = load_weights_from_csv(sys.argv[2])
     y_pred = clf.predict(X_test)
     output_file(y_pred, test_data, 'prediciton.csv',)
 
