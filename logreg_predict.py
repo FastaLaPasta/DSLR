@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from logreg_class import LogisticRegression
 import sys
+from sklearn.metrics import accuracy_score
 
 
 def get_data(path):
@@ -10,8 +11,10 @@ def get_data(path):
     return data
 
 
-def accurcy(y_pred, y_test):
-    return np.sum(y_pred == y_test)/len(y_test)
+def accurcy(y_pred):
+    datatrue = pd.read_csv("datasets/dataset_train.csv")
+    print(f'Sklearn: {accuracy_score(datatrue["Hogwarts House"], y_pred)}')
+    return np.sum(datatrue["Hogwarts House"] == y_pred)/len(y_pred)
 
 
 def preprocessing_data(X_test):
@@ -40,6 +43,7 @@ def output_file(y_pred, t_data, path='prediction.csv'):
     output = pd.DataFrame({'Index': t_data['Index'], 'Hogwarts House': pred})
     output.to_csv('predictions.csv', index=False)
     print('predictions.csv file create and fill')
+    return output
 
 
 def main():
@@ -60,9 +64,8 @@ def main():
     clf = LogisticRegression(lr, n_iters)
     clf.models = load_weights_from_csv(sys.argv[2])
     y_pred = clf.predict(X_test)
-    output_file(y_pred, test_data, 'prediciton.csv',)
-
-    # print(accurcy(test_data['Hogwarts House'], output['Hogwarts House']))
+    output = output_file(y_pred, test_data, 'prediciton.csv',)
+    print(f"Homemade: {accurcy(output['Hogwarts House'])}")
 
 
 if __name__ == '__main__':

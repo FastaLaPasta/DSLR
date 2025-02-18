@@ -32,4 +32,5 @@ def treat_data(dataset):
             }
 
     summary_df = pd.DataFrame(summary)
+    # print(pd.DataFrame.describe(data).T)
     return summary_df.transpose()

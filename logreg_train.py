@@ -43,7 +43,8 @@ def main():
         print(e)
         return
 
-    X = train_data.drop(['Hogwarts House', 'Index'], axis=1).select_dtypes(include=[int, float]).fillna(0).values
+    X = train_data.drop(['Hogwarts House', 'Index'], axis=1).select_dtypes(
+        include=[int, float]).fillna(0).values
     le = LabelEncoder()
     y = le.fit_transform(train_data['Hogwarts House'].values)
     X_train = preprocessing_data(X)
