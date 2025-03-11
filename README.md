@@ -18,8 +18,8 @@ This project is part of the 42 school curriculum and demonstrates the use of log
 
 1. **Clone the Repository:**
     ```bash
-    git clone https://github.com/yourusername/yourrepo.git
-    cd yourrepo/dslr
+    git clone https://github.com/FastaLaPasta/DSLR.git
+    cd DSLR
     ```
 
 2. **Install Dependencies:**
